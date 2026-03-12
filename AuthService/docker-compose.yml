@@ -1,0 +1,37 @@
+services:
+
+  db:
+    image: postgres:17-alpine
+    container_name: auth_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"          # Expose to host for local tools (pgAdmin, psql, etc.)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # Named volume — survives container restarts.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d authdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s     # Give Postgres time to initialise before counting failures.
+
+  # auth:
+  #   build: .
+  #   restart: unless-stopped
+  #   env_file: .env          # Loads all variables from your .env file.
+  #   environment:
+  #     # Override only the DB host so the app reaches the `db` service by its
+  #     # Docker Compose service name instead of `localhost`.
+  #     POSTGRES_HOST: db
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy   # Wait for Postgres healthcheck to pass before starting.
+
+volumes:
+  postgres_data:
