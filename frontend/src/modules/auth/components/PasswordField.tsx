@@ -80,7 +80,7 @@ const PasswordField = ({
         disabled={disabled}
         tabIndex={-1}
         aria-label={visible ? 'Hide password' : 'Show password'}
-        className="absolute right-3 top-[2.35rem] text-slate-400 hover:text-slate-600 disabled:cursor-not-allowed focus:outline-none transition-colors"
+        className="absolute right-3 top-[2.1rem] text-slate-400 hover:text-slate-600 disabled:cursor-not-allowed focus:outline-none"
       >
         {visible ? <EyeClosedIcon /> : <EyeOpenIcon />}
       </button>
